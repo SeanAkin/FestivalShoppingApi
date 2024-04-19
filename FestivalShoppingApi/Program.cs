@@ -1,3 +1,4 @@
+using System.Threading.RateLimiting;
 using FestivalShoppingApi.Data;
 using FestivalShoppingApi.Domain.Contracts;
 using FestivalShoppingApi.Domain.Services;
@@ -15,6 +16,28 @@ builder.Services.AddDbContext<FestivalShoppingContext>(opt
     => opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<IShoppingListService, ShoppingListService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddRateLimiter(opt =>
+{
+    opt.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+    
+    opt.AddPolicy("Default", context => 
+        RateLimitPartition.GetFixedWindowLimiter(
+            partitionKey: context.Connection.RemoteIpAddress?.ToString(),
+            factory: partition => new FixedWindowRateLimiterOptions
+            {
+                PermitLimit = 15,
+                Window = TimeSpan.FromSeconds(10)
+            }));
+    
+    opt.AddPolicy("Create-New-List", context => 
+        RateLimitPartition.GetFixedWindowLimiter(
+            partitionKey: context.Connection.RemoteIpAddress?.ToString(),
+            factory: partition => new FixedWindowRateLimiterOptions
+            {
+                PermitLimit = 1,
+                Window = TimeSpan.FromMinutes(5)
+            }));
+});
 
 var app = builder.Build();
 
@@ -26,6 +49,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseRateLimiter();
 
 app.UseAuthorization();
 

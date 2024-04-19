@@ -1,14 +1,14 @@
 using FestivalShoppingApi.Data.Dtos;
-using FestivalShoppingApi.Data.Models;
 using FestivalShoppingApi.Data.RequestModels;
 using FestivalShoppingApi.Domain.Contracts;
-using FestivalShoppingApi.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace FestivalShoppingApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [EnableRateLimiting("Default")]
     public class ShoppingListController : ControllerBase
     {
         private readonly IShoppingListService _shoppingListService;
@@ -16,11 +16,12 @@ namespace FestivalShoppingApi.Controllers
         {
             _shoppingListService = shoppingListService;
         }
-
+        
         [HttpPost(Name = "Create")]
+        [EnableRateLimiting("Create-New-List")]
         public async Task<ActionResult<ShoppingListDto>> CreateNewShoppingList()
             => await _shoppingListService.CreateShoppingList();
-
+        
         [HttpGet("{guid}")]
         public async Task<ActionResult<ShoppingListDto>> Get(Guid guid)
         {
