@@ -13,7 +13,10 @@ public class CategoryService(FestivalShoppingContext context, IShoppingListServi
     public async Task<Result> CreateCategory(Guid guid, NewCategoryRequest newCategoryRequest)
     {
         var shoppingListExists = await shoppingListService.Exists(guid);
-        if (shoppingListExists is false) return Result.FailureResult("Shopping list doesn't exist", HttpStatusCode.NotFound);
+        if (shoppingListExists is false)
+        {
+            return Result.FailureResult("Shopping list doesn't exist", HttpStatusCode.NotFound);
+        }
     
         var categoryToAdd = new Category()
         {
@@ -30,8 +33,10 @@ public class CategoryService(FestivalShoppingContext context, IShoppingListServi
     public async Task<Result> DeleteCategory(Guid guid)
     {
         var category = await context.Categories.FindAsync(guid);
-        
-        if(category is null) return Result.FailureResult("Category doesn't exist", HttpStatusCode.NotFound);
+        if (category is null)
+        {
+            return Result.FailureResult("Category doesn't exist", HttpStatusCode.NotFound);
+        }
         
         context.Categories.Remove(category);
         await context.SaveChangesAsync();

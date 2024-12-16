@@ -28,6 +28,7 @@ public class ShoppingListService(FestivalShoppingContext context) : IShoppingLis
         {
             return Result<Guid>.FailureResult("Name cannot be empty", HttpStatusCode.BadRequest);
         }
+        
         var newShoppingList = new ShoppingList { Name = name };
         
         await context.AddAsync(newShoppingList);
