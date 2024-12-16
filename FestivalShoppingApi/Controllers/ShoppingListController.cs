@@ -1,3 +1,4 @@
+using FestivalShoppingApi.Common.Models;
 using FestivalShoppingApi.Data.Dtos;
 using FestivalShoppingApi.Data.RequestModels;
 using FestivalShoppingApi.Domain.Contracts;
@@ -8,43 +9,21 @@ namespace FestivalShoppingApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    [EnableRateLimiting("Default")]
-    public class ShoppingListController : ControllerBase
+    public class ShoppingListController : BaseController
     {
         private readonly IShoppingListService _shoppingListService;
         public ShoppingListController(IShoppingListService shoppingListService)
         {
             _shoppingListService = shoppingListService;
         }
-        
+
         [HttpPost(Name = "Create")]
         [EnableRateLimiting("Create-New-List")]
-        public async Task<ActionResult<ShoppingListDto>> CreateNewShoppingList()
-            => await _shoppingListService.CreateShoppingList();
+        public async Task<ActionResult<Result<Guid>>> CreateNewShoppingList(string name)
+            => ResolveResult(await _shoppingListService.CreateShoppingList(name));
         
         [HttpGet("{guid}")]
-        public async Task<ActionResult<ShoppingListDto>> Get(Guid guid)
-        {
-            var shoppingList = await _shoppingListService.GetShoppingList(guid);
-    
-            if (shoppingList == null)
-            {
-                return NotFound();
-            }
-
-            return shoppingList;
-        }
-
-        [HttpPost("{guid}/AddItem")]
-        public async Task<ActionResult> AddItem(Guid guid, NewItemRequest itemRequest)
-        {
-            var success = await _shoppingListService.AddItem(guid, itemRequest);
-            if (!success)
-            {
-                return StatusCode(500, "UnknownError");
-            }
-        
-            return Ok();
-        }
+        public async Task<ActionResult<Result<ShoppingListDto?>>> Get(Guid guid)
+            => ResolveResult(await _shoppingListService.GetShoppingList(guid));
     }
 }

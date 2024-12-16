@@ -1,3 +1,4 @@
+using FestivalShoppingApi.Common.Models;
 using FestivalShoppingApi.Data.RequestModels;
 using FestivalShoppingApi.Domain.Contracts;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +9,7 @@ namespace FestivalShoppingApi.Controllers;
 [ApiController]
 [Route("[controller]")]
 [EnableRateLimiting("Default")]
-public class CategoryController : ControllerBase
+public class CategoryController : BaseController
 {
     private readonly ICategoryService _categoryService;
     public CategoryController(ICategoryService categoryService)
@@ -17,14 +18,10 @@ public class CategoryController : ControllerBase
     }
     
     [HttpPost("{guid}/Create")]
-    public async Task<ActionResult> CreateCategory(Guid guid, NewCategoryRequest newCategoryRequest)
-    {
-        var success = await _categoryService.CreateCategory(guid, newCategoryRequest);
-        if (!success)
-        {
-            return BadRequest();
-        }
+    public async Task<ActionResult<Result>> CreateCategory(Guid guid, NewCategoryRequest newCategoryRequest)
+        => ResolveResult(await _categoryService.CreateCategory(guid, newCategoryRequest));
 
-        return Ok();
-    }
+    [HttpDelete("{guid}/Delete")]
+    public async Task<ActionResult<Result>> DeleteCategory(Guid guid)
+        => ResolveResult(await _categoryService.DeleteCategory(guid));
 }

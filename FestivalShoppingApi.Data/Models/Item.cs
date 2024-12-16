@@ -1,12 +1,13 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using FestivalShoppingApi.Data.Dtos;
 
 namespace FestivalShoppingApi.Data.Models;
 
 public record Item
 {
     [Key]
-    public int ItemId { get; set; }
+    public Guid ItemId { get; set; }
 
     [Required] 
     [MaxLength(100)] 
@@ -19,4 +20,18 @@ public record Item
     [ForeignKey("Category")]
     public int CategoryId { get; set; }  
     public virtual Category Category { get; set; }  
+}
+
+public static class ItemExtensions
+{
+    public static ItemDto ConvertToDto(this Item item)
+    {
+        return new ItemDto()
+        {
+            ItemId = item.ItemId,
+            Name = item.Name,
+            Url = item.Url,
+            Essential = item.Essential
+        };
+    }
 }

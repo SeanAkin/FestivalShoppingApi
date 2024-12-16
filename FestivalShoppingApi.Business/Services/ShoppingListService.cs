@@ -1,65 +1,55 @@
+using System.Net;
+using FestivalShoppingApi.Common.Models;
 using FestivalShoppingApi.Data;
 using FestivalShoppingApi.Data.Dtos;
 using FestivalShoppingApi.Data.Models;
-using FestivalShoppingApi.Data.RequestModels;
 using FestivalShoppingApi.Domain.Contracts;
 using Microsoft.EntityFrameworkCore;
 
 namespace FestivalShoppingApi.Domain.Services;
 
-public class ShoppingListService : IShoppingListService
+public class ShoppingListService(FestivalShoppingContext context) : IShoppingListService
 {
-    private readonly FestivalShoppingContext _context;
-    public ShoppingListService(FestivalShoppingContext context)
+    public async Task<Result<ShoppingListDto?>> GetShoppingList(Guid shoppingListId)
     {
-        _context = context;
-    }
-    
-    public async Task<ShoppingListDto?> GetShoppingList(Guid shoppingListId)
-    {
-        var shoppingList = await _context.ShoppingLists
+        var shoppingList = await context.ShoppingLists
             .Include(sl => sl.Categories)
             .ThenInclude(c => c.Items)
             .FirstOrDefaultAsync(sl => sl.GuidId == shoppingListId);
 
-        return shoppingList?.ConvertToDto();
+        return shoppingList == null ? 
+            Result<ShoppingListDto?>.FailureResult("Shopping list not found", HttpStatusCode.NotFound) : 
+            Result<ShoppingListDto?>.SuccessResult(shoppingList.ConvertToDto());
     }
 
-    public async Task<ShoppingListDto> CreateShoppingList()
+    public async Task<Result<Guid>> CreateShoppingList(string name)
     {
-        var newShoppingList = new ShoppingList();
-        
-        await _context.AddAsync(newShoppingList);
-        await _context.SaveChangesAsync();
-
-        return newShoppingList.ConvertToDto();
-    }
-
-    public async Task<bool> AddItem(Guid guid, NewItemRequest newItemRequest)
-    {
-        var shoppingList = await _context.ShoppingLists
-            .Include(sl => sl.Categories)
-            .FirstOrDefaultAsync(x => x.GuidId == guid);
-        if (shoppingList is null || !shoppingList.Categories.Any(x => x.CategoryId == newItemRequest.CategoryId))
+        if (string.IsNullOrEmpty(name))
         {
-            return false;
+            return Result<Guid>.FailureResult("Name cannot be empty", HttpStatusCode.BadRequest);
         }
+        var newShoppingList = new ShoppingList { Name = name };
+        
+        await context.AddAsync(newShoppingList);
+        await context.SaveChangesAsync();
 
-        var itemToAdd = new Item()
-        {
-            Name = newItemRequest.Name,
-            Url = newItemRequest.Url,
-            Essential = newItemRequest.Essential,
-            CategoryId = newItemRequest.CategoryId,
-            ShoppingListId = guid
-        };
-
-        shoppingList.Items.Add(itemToAdd);
-        await _context.SaveChangesAsync();
-
-        return true;
+        return Result<Guid>.SuccessResult(newShoppingList.GuidId);
     }
     
-    public async Task<bool> DoesShoppingListExist(Guid guid)
-        => await _context.ShoppingLists.AnyAsync(x => x.GuidId == guid);
+    public async Task<bool> Exists(Guid guid)
+        => await context.ShoppingLists.AnyAsync(x => x.GuidId == guid);
+
+    public async Task<Result> DeleteShoppingList(Guid guid)
+    {
+        var shoppingList = await context.ShoppingLists.FindAsync(guid);
+        if (shoppingList == null)
+        {
+            return Result.FailureResult("Shopping list not found", HttpStatusCode.NotFound);
+        }
+        
+        context.ShoppingLists.Remove(shoppingList);
+        await context.SaveChangesAsync();
+        
+        return Result.SuccessResult();
+    }
 }

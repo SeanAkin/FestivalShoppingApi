@@ -10,9 +10,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FestivalShoppingApi", "Fest
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FestivalShoppingApi.Data", "FestivalShoppingApi.Data\FestivalShoppingApi.Data.csproj", "{257CD220-8081-408E-A15D-F82CF28FF51C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FestivalShoppingApi.Test", "FestivalShoppingApi.Test\FestivalShoppingApi.Test.csproj", "{DD7C275D-2BF3-4458-8A3F-2AD90A03EDDD}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FestivalShoppingApi.Business", "FestivalShoppingApi.Business\FestivalShoppingApi.Business.csproj", "{AFEB7311-7ACD-430F-B120-069B74E9C621}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FestivalShoppingApi.Common", "FestivalShoppingApi.Common\FestivalShoppingApi.Common.csproj", "{ECF77802-E616-466E-900B-A0A47F730F03}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FestivalShoppingApi.Test", "FestivalShoppingApi.Test\FestivalShoppingApi.Test.csproj", "{14BC86B8-2B83-4E68-886B-8A6CABF1F7B3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,14 +30,18 @@ Global
 		{257CD220-8081-408E-A15D-F82CF28FF51C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{257CD220-8081-408E-A15D-F82CF28FF51C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{257CD220-8081-408E-A15D-F82CF28FF51C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DD7C275D-2BF3-4458-8A3F-2AD90A03EDDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DD7C275D-2BF3-4458-8A3F-2AD90A03EDDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DD7C275D-2BF3-4458-8A3F-2AD90A03EDDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DD7C275D-2BF3-4458-8A3F-2AD90A03EDDD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AFEB7311-7ACD-430F-B120-069B74E9C621}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AFEB7311-7ACD-430F-B120-069B74E9C621}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AFEB7311-7ACD-430F-B120-069B74E9C621}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AFEB7311-7ACD-430F-B120-069B74E9C621}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECF77802-E616-466E-900B-A0A47F730F03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECF77802-E616-466E-900B-A0A47F730F03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECF77802-E616-466E-900B-A0A47F730F03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECF77802-E616-466E-900B-A0A47F730F03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14BC86B8-2B83-4E68-886B-8A6CABF1F7B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14BC86B8-2B83-4E68-886B-8A6CABF1F7B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14BC86B8-2B83-4E68-886B-8A6CABF1F7B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14BC86B8-2B83-4E68-886B-8A6CABF1F7B3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

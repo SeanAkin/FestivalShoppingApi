@@ -8,6 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\FestivalShoppingApi.Common\FestivalShoppingApi.Common.csproj" />
       <ProjectReference Include="..\FestivalShoppingApi.Data\FestivalShoppingApi.Data.csproj" />
     </ItemGroup>
 
