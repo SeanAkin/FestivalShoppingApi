@@ -1,0 +1,15 @@
+version: '3.9'
+
+services:
+  festival-api:
+    build:
+      context: .
+      dockerfile: FestivalShoppingApi.Dockerfile
+    container_name: festival_api
+    ports:
+      - "5000:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Data Source=/app/FestivalShopping.db
+    volumes:
+      - ./sqlite:/app/sqlite
