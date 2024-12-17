@@ -27,4 +27,8 @@
       <ProjectReference Include="..\FestivalShoppingApi.Data\FestivalShoppingApi.Data.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="IntegrationTests\" />
+    </ItemGroup>
+
 </Project>

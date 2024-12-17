@@ -19,5 +19,8 @@
     <ProjectReference Include="..\FestivalShoppingApi.Business\FestivalShoppingApi.Business.csproj" />
     <ProjectReference Include="..\FestivalShoppingApi.Data\FestivalShoppingApi.Data.csproj" />
   </ItemGroup>
-
+  
+  <ItemGroup>
+    <InternalsVisibleTo Include="MyTestProject" />
+  </ItemGroup>
 </Project>
