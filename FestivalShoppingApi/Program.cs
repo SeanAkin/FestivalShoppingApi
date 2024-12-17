@@ -55,10 +55,11 @@ using (var scope = app.Services.CreateScope())
 app.MapHealthChecks("/health");
 
 // Configure the HTTP request pipeline.
-
-app.UseSwagger();
-app.UseSwaggerUI();
-
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
 app.UseHttpsRedirection();
 if (!app.Environment.IsDevelopment())
