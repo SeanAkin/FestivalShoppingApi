@@ -8,20 +8,13 @@ namespace FestivalShoppingApi.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-[EnableRateLimiting("Default")]
-public class CategoryController : BaseController
+public class CategoryController(ICategoryService categoryService) : BaseController
 {
-    private readonly ICategoryService _categoryService;
-    public CategoryController(ICategoryService categoryService)
-    {
-        _categoryService = categoryService;
-    }
-    
-    [HttpPost("{guid}/Create")]
-    public async Task<ActionResult<Result>> CreateCategory(Guid guid, NewCategoryRequest newCategoryRequest)
-        => ResolveResult(await _categoryService.CreateCategory(guid, newCategoryRequest));
+    [HttpPost("Create")]
+    public async Task<ActionResult<Result>> CreateCategory(NewCategoryRequest newCategoryRequest)
+        => ResolveResult(await categoryService.CreateCategory(newCategoryRequest));
 
-    [HttpDelete("{guid}/Delete")]
+    [HttpDelete("{guid:guid}/Delete")]
     public async Task<ActionResult<Result>> DeleteCategory(Guid guid)
-        => ResolveResult(await _categoryService.DeleteCategory(guid));
+        => ResolveResult(await categoryService.DeleteCategory(guid));
 }

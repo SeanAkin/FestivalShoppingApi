@@ -15,8 +15,8 @@ public class ItemExtensionsTests
             Name = "Test Item",
             Url = "https://example.com/item",
             Essential = true,
-            CategoryId = 1,
-            Category = new Category { CategoryId = 1, Name = "Test Category" }
+            CategoryId = Guid.NewGuid(),
+            Category = new Category { CategoryId = Guid.NewGuid(), Name = "Test Category" }
         };
 
         var expectedDto = new ItemDto
@@ -40,8 +40,8 @@ public class ItemExtensionsTests
             ItemId = Guid.NewGuid(),
             Name = "Test Item Without URL",
             Essential = false,
-            CategoryId = 1,
-            Category = new Category { CategoryId = 1, Name = "Test Category" }
+            CategoryId = Guid.NewGuid(),
+            Category = new Category { CategoryId = Guid.NewGuid(), Name = "Test Category" }
         };
 
         var expectedDto = new ItemDto

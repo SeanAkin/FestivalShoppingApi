@@ -5,6 +5,6 @@ namespace FestivalShoppingApi.Domain.Contracts;
 
 public interface ICategoryService
 {
-   Task<Result> CreateCategory(Guid guid, NewCategoryRequest categoryToAdd);
+   Task<Result> CreateCategory(NewCategoryRequest categoryToAdd);
    Task<Result> DeleteCategory(Guid guid);
 }

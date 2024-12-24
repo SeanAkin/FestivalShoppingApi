@@ -10,9 +10,9 @@ namespace FestivalShoppingApi.Domain.Services;
 public class CategoryService(FestivalShoppingContext context, IShoppingListService shoppingListService)
     : ICategoryService
 {
-    public async Task<Result> CreateCategory(Guid guid, NewCategoryRequest newCategoryRequest)
+    public async Task<Result> CreateCategory(NewCategoryRequest newCategoryRequest)
     {
-        var shoppingListExists = await shoppingListService.Exists(guid);
+        var shoppingListExists = await shoppingListService.Exists(newCategoryRequest.ShoppingListId);
         if (shoppingListExists is false)
         {
             return Result.FailureResult("Shopping list doesn't exist", HttpStatusCode.NotFound);
@@ -21,7 +21,7 @@ public class CategoryService(FestivalShoppingContext context, IShoppingListServi
         var categoryToAdd = new Category()
         {
             Name = newCategoryRequest.Name,
-            ShoppingListId = guid
+            ShoppingListId = newCategoryRequest.ShoppingListId
         };
     
         await context.AddAsync(categoryToAdd);
