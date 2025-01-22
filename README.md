@@ -14,7 +14,7 @@ The **Festival Shopping API** is a backend service designed to facilitate the ma
 
 ## Technologies Used
 
-- **ASP.NET Core**: Utilized for building a high-performance, cross-platform web API.
+- **.NET**: Utilized for building a high-performance, cross-platform web API.
 - **Entity Framework Core**: Serves as the Object-Relational Mapper (ORM) to interact with the database in an efficient manner.
 - **SQLite**: Chosen as the lightweight, file-based database provider for storing shopping list data.
 - **Docker**: For containerizing the application, ensuring consistent environments across different deployment platforms.
