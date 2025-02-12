@@ -17,6 +17,9 @@ RUN dotnet publish "FestivalShoppingApi.csproj" -c Release -o /app
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app
+
+RUN mkdir -p /app/sqlite
+
 COPY --from=build /app .
 
 EXPOSE 8080
