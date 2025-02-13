@@ -61,9 +61,10 @@ app.UsePathBase("/festival-shopping-api");
 app.UseSwagger();
 app.UseSwaggerUI();
 
+app.UseHttpsRedirection();
+
 if (!app.Environment.IsDevelopment())
 {
-    app.UseHttpsRedirection();
     app.UseRateLimiter();
 }
 
